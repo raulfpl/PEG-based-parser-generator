@@ -1,0 +1,25 @@
+module Imp;
+option parser(ImpParser);
+public String program = varblock programblock ;
+String varblock       = "var" WS "{" WS vardefs WS "}" ;
+String vardefs        = vardef vardefs
+                      / /*empty*/ ;
+String vardef         = type WS identifier;
+String type           = "int" / "bool";
+String programblock   = "program" WS "{" WS commands;
+String commands       = command WS ";" WS commands;
+String command        = "skip"
+                      / identifier ":=" bexp
+                      / "print" WS bexp
+                      / "read" WS identifier
+                      / "if" bexp "then" block "else" block
+                      / "while" bexp "do" block;
+String block          = "{" WS commands WS "{";
+String bexp           = "true" / "false"
+                      / bexp "=" bexp
+                      ,
+
+void   PLUS  = "+";
+void   MINUS = "-";
+String DIGIT = [0-9];
+void   EOF = !_;
